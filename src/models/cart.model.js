@@ -1,5 +1,6 @@
 import { Schema, model, mongoose} from 'mongoose'
 
+
 const cartSchema = new Schema({
 
 products:{
@@ -15,6 +16,8 @@ products:{
 }
 
 });
+
+
 
 const cartModel = model('carts', cartSchema)
 

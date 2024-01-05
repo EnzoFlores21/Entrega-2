@@ -20,7 +20,7 @@ productRouter.get('/:pid', async (req,res)=>{
     try{
         
         const{ pid } = req.params
-        const producto = daoProductos.getProductById(pid)
+        const producto = await daoProductos.getProductById(pid)
         res.json(producto)
 
     }
@@ -45,10 +45,22 @@ productRouter.post('/', async (req,res)=>{
 })
 
 productRouter.put('/:pid',async (req,res)=>{
+    
     try{
-        let productoModificado = req.body
-        let modified = await daoProductos.updateProduct(req.params.pid,productoModificado)
-        res.status(201).json(modified)
+        const { pid } = req.params
+        const product = req.body
+
+
+        
+        const result = await daoProductos.updateProduct(pid, product)
+
+        const fetchedUpdatedProduct = await daoProductos.getProductById(pid);
+
+
+        res.status(201).json({
+            resultado: fetchedUpdatedProduct,
+            message: "Producto Actualizado"
+        })
     }
     catch(err){
         res.status(500).json({error:err})

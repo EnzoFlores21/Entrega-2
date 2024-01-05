@@ -11,6 +11,7 @@ import cartRouter from "./routes/cart.routes.js"
 import viewsRouter from "./routes/views.routes.js"
 
 
+
 // Mongoose
 mongoose.connect(
     `mongodb+srv://enzoflores21:${password}@clusterprueba.zwqxjbs.mongodb.net/${db_name}?retryWrites=true&w=majority`

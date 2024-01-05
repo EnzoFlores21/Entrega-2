@@ -1,23 +1,43 @@
-import {cartModel} from "../../models/cart.model.js"
+import { cartModel } from "../../models/cart.model.js"
 
 class CartDao {
-    async getAllCarts(){
-        return await cartModel.find()
+    async getAllCarts() {
+        try {
+            return await cartModel.find();
+        } catch (error) {
+            throw new Error(`Error getting carts: ${error.message}`);
+        }
     }
 
-    async getCartById(id){
+
+    async createCart(cart) {
+        try {
+            return await cartModel.create(cart);
+        } catch (error) {
+            throw new Error(`Error while creating cart: ${error.message}`);
+        }
+    }
+
+    async getCartById(id) {
         return await cartModel.findById(id)
     }
 
-    async createCart(){
-        return await cartModel.create({})
+
+    async getProductsFromCart(cid) {
+        try {
+            return await cartModel
+                .findOne({ _id: cid })
+                .populate({
+                    path: "products.product",
+                    model: "products",
+                })
+                .exec();
+        } catch (error) {
+            throw new Error(`Error getting products from cart: ${error.message}`);
+        }
     }
 
-    async getProductsFromCart(id){
-        return await cartModel.findById/(id).populate(`products.product`)
-    }
-
-    async updateProducts(cid, cart){
+    async updateProducts(cid, cart) {
         return await cartModel.findByIdAndUpdate(cid, cart)
     }
 }
