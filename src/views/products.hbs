@@ -1,11 +1,11 @@
 <div>
-    <h1>Bienvenido {{user.name}} </h1>
-
-    <p>Mail:{{user.email}}</p>
-    <p>Edad:{{user.age}}</p>
-    <p>Rol:{{user.rol}}</p>
+    <h1>Bienvenido
+        {{userToRender.first_name}}
+        {{userToRender.last_name}}
+        ({{userToRender.role}}) 
+    </h1>
 </div>
-<button id="logout">Logout</button>
+<button id="logout">Cerrar session</button>
 
 <div>
     <table class="table">
