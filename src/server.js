@@ -13,7 +13,7 @@ import cartRouter from "./routes/cart.routes.js"
 import viewsRouter from "./routes/views.routes.js"
 import sessionsRouter from "./routes/sessions.routes.js"
 import usersViewsRouter from "./routes/users.views.routes.js"
-import githubLoginViewRouter from './routes/github-login.views.routes.js'
+import githubRouter from './routes/github-login.views.routes.js'
 
 // Passport Imports
 import passport from 'passport';
@@ -69,7 +69,7 @@ app.use("/api/carts", cartRouter)
 app.use("/", viewsRouter);
 app.use('/users', usersViewsRouter)
 app.use('/api/sessions', sessionsRouter)
-app.use("/github", githubLoginViewRouter)
+app.use("/github", githubRouter)
 
 
 // Levantar Servidor
