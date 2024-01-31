@@ -1,3 +1,4 @@
+// Units
 import express from "express"
 import handlebars from "express-handlebars"
 import mongoose from "mongoose"
@@ -6,18 +7,25 @@ import Handlebars from "handlebars"
 import MongoStore from "connect-mongo"
 import session from "express-session"
 
+//  Server
 import __dirname from "./dirname.js"
 import { password, db_name, PORT } from "./env.js"
+
+// Routes
 import productRouter from "./routes/product.routes.js"
 import cartRouter from "./routes/cart.routes.js"
 import viewsRouter from "./routes/views.routes.js"
 import sessionsRouter from "./routes/sessions.routes.js"
 import usersViewsRouter from "./routes/users.views.routes.js"
 import githubRouter from './routes/github-login.views.routes.js'
+import jwtRouter from "./routes/jwt.routes.js"
 
 // Passport Imports
 import passport from 'passport';
 import initializePassport from './config/passport.config.js'
+
+// JWT
+import { generateToken, authToken } from "./utils/jwt.js"
 
 // Express
 const app = express()
@@ -41,8 +49,8 @@ app.set("view engine", "hbs")
 app.set("views", `${__dirname}/views`)
 app.use(express.static(`${__dirname}/public`))
 
+// Nongo DB
 const URL_MONGO = "mongodb+srv://enzoflores21:DevEnzoNicolasFlores2024@clusterprueba.zwqxjbs.mongodb.net/ecommerce?retryWrites=true&w=majority"
-
 
 app.use(session(
     {
@@ -70,6 +78,7 @@ app.use("/", viewsRouter);
 app.use('/users', usersViewsRouter)
 app.use('/api/sessions', sessionsRouter)
 app.use("/github", githubRouter)
+app.use("/api/jwt", jwtRouter);
 
 
 // Levantar Servidor

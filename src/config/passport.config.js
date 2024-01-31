@@ -15,14 +15,12 @@ const initializePassport = () => {
             callbackUrl: 'http://localhost:5000/api/sessions/githubcallback'
         },
         async (accessToken, refreshToken, profile, done) => {
-            console.log("Profile obtenido del usuario de GitHub: ");
-            console.log(profile);
+            console.log("Profile obtenido del usuario de GitHub ");
             try {
                 const user = await userModel.findOne({ email: profile._json.email });
-                console.log("Usuario encontrado para login:");
-                console.log(user);
+                console.log("Usuario encontrado para login");
                 if (!user) {
-                    console.warn("User doesn't exists with username: " + profile._json.email);
+                    console.warn("User doesn't exists with username " + profile._json.email);
                     let newUser = {
                         first_name: profile._json.name,
                         last_name: '',
@@ -74,7 +72,7 @@ const initializePassport = () => {
                 return done(null, result)
 
             } catch (error) {
-                return done("Error registrando al usuario " + error);
+                return done("Error registrando al usuario: Dupliacado en la base de datos");
             }
 
         }
@@ -88,7 +86,6 @@ const initializePassport = () => {
             try {
                 const user = await userModel.findOne({ email: username });
                 console.log("Usuario encontrado para login:");
-                console.log(user);
 
                 if (!user) {
                     console.warn("User doesn't exists with username: " + username);

@@ -2,6 +2,7 @@ import { Router } from "express";
 import userModel from "../models/user.model.js";
 import { createHash, isValidPassword } from '../utils/bcrypt.js';
 import passport from "passport";
+import { generateToken } from "../utils/jwt.js";
 
 const sessionsRouter = Router()
 
@@ -40,20 +41,24 @@ sessionsRouter.post('/login', passport.authenticate('login',
     }
 ), async (req, res) => {
 
+    const user = req.user;
+    
     if (!req.user) {
         return res.status(400).send({status: "error", error: "Invalid Credentials" })
     }
 
-    const user = req.user;
 
-    req.session.user = {
-        name: `${user.first_name} ${user.last_name}`,
-        email: user.email,
-        age: user.age
-    }
-    console.log(user);
+    // req.session.user = {
+    //     name: `${user.first_name} ${user.last_name}`,
+    //     email: user.email,
+    //     age: user.age
+    // }
     
-    res.send({ status: "success", payload: req.session.user, message: "¡Primer logueo realizado! :)" });
+    // res.send({ status: "success", payload: req.session.user, message: "¡Primer logueo realizado! :)" });
+
+    const access_token = generateToken(user)
+    console.log(access_token);
+    res.send({ access_token: access_token });
 })
 
 sessionsRouter.get('/logout', (req, res) => {

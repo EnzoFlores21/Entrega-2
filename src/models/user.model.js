@@ -1,3 +1,4 @@
+import { hash } from "bcrypt";
 import mongoose from "mongoose";
 
 
@@ -12,10 +13,12 @@ const schema = new mongoose.Schema({
     },
     age: Number,
     password: String,
+    cart: {type: Array},
     loggedBy: String,
     role:{
         type:String,
-        default: "user"
+        default: "user",
+        required: true
     }
 })
 

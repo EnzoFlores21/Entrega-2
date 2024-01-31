@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { authToken } from "../utils/jwt.js";
 
 const  usersViewsRouter = Router()
 
@@ -10,7 +11,7 @@ usersViewsRouter.get("/register", (req, res) => {
     res.render('register')
 })
 
-usersViewsRouter.get("/", (req, res) => {
+usersViewsRouter.get("/", authToken, (req, res) => {
     res.render('profile', {
         user: req.session.user
     })

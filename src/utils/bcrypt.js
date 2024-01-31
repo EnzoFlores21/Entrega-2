@@ -4,6 +4,5 @@ export const createHash = password => bycrypt.hashSync(password, bycrypt.genSalt
 
 
 export const isValidPassword = (user, password) => {
-    console.log(`Datos a validar: user-password: ${user.password}, password: ${password}`);
     return bycrypt.compareSync(password, user.password);
 }
