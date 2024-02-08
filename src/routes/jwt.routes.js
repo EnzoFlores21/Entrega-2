@@ -37,7 +37,7 @@ jwtRouter.post("/login", async (req, res) => {
             {
                 maxAge: 60000,
                 // httpOnly: true //No se expone la cookie
-                // httpOnly: false //Si se expone la cookie
+                httpOnly: false //Si se expone la cookie
 
             }
 

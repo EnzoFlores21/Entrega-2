@@ -6,6 +6,7 @@ import { allowInsecurePrototypeAccess } from "@handlebars/allow-prototype-access
 import Handlebars from "handlebars"
 import MongoStore from "connect-mongo"
 import session from "express-session"
+import cookieParser from "cookie-parser"
 
 //  Server
 import __dirname from "./dirname.js"
@@ -19,6 +20,7 @@ import sessionsRouter from "./routes/sessions.routes.js"
 import usersViewsRouter from "./routes/users.views.routes.js"
 import githubRouter from './routes/github-login.views.routes.js'
 import jwtRouter from "./routes/jwt.routes.js"
+import userRouter from "./routes/users.routes.js"
 
 // Passport Imports
 import passport from 'passport';
@@ -65,6 +67,8 @@ app.use(session(
     }
 ))
 
+app.use(cookieParser("CoderS3cr3tC0d3"));
+
 // Middleware de passport
 initializePassport();
 app.use(passport.initialize());
@@ -78,7 +82,8 @@ app.use("/", viewsRouter);
 app.use('/users', usersViewsRouter)
 app.use('/api/sessions', sessionsRouter)
 app.use("/github", githubRouter)
-app.use("/api/jwt", jwtRouter);
+app.use("/api/jwt", jwtRouter)
+app.use('/api/users', userRouter);
 
 
 // Levantar Servidor
