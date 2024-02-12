@@ -21,7 +21,6 @@ const initializePassport = () => {
         console.log("Entrando a passport Strategy con JWT.")
         try {
             console.log("JWT obtenido del Payload");
-            console.log(jwt_payload);
             return done(null, jwt_payload.user)
         } catch (error) {
             return done(error)
@@ -53,7 +52,6 @@ const initializePassport = () => {
                     loggedBy: 'form'
                 }
                 const result = await userModel.create(user);
-                console.log(result);
                 // Todo sale ok
                 return done(null, result)
             } catch (error) {

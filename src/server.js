@@ -21,13 +21,12 @@ import usersViewsRouter from "./routes/users.views.routes.js"
 import githubRouter from './routes/github-login.views.routes.js'
 import jwtRouter from "./routes/jwt.routes.js"
 import userRouter from "./routes/users.routes.js"
+import UsersExtendRouter from "./routes/custom/user.extend.router.js"
 
 // Passport Imports
 import passport from 'passport';
 import initializePassport from './config/passport.config.js'
 
-// JWT
-import { generateToken, authToken } from "./utils/jwt.js"
 
 // Express
 const app = express()
@@ -72,7 +71,7 @@ app.use(cookieParser("CoderS3cr3tC0d3"));
 // Middleware de passport
 initializePassport();
 app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.session());
 
 
 // Routes
@@ -84,6 +83,11 @@ app.use('/api/sessions', sessionsRouter)
 app.use("/github", githubRouter)
 app.use("/api/jwt", jwtRouter)
 app.use('/api/users', userRouter);
+
+
+const usersExtendRouter = new UsersExtendRouter();
+app.use("/api/extend/users", usersExtendRouter.getRouter());
+
 
 
 // Levantar Servidor

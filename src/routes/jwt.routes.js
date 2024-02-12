@@ -11,7 +11,7 @@ jwtRouter.post("/login", async (req, res) => {
     try {
         const user = await userModel.findOne({ email: email });
         console.log("Usuario encontrado para login:");
-        console.log(user);
+        
         if (!user) {
             console.warn("User doesn't exists with username: " + email);
             return res.status(204).send({ error: "Not found", message: "Usuario no encontrado con username: " + email });
@@ -27,7 +27,7 @@ jwtRouter.post("/login", async (req, res) => {
             role: user.role
         };
         const access_token = generateToken(tokenUser);
-        console.log(access_token);
+        
         //1ro con LocalStorage
         // res.send({ message: "Login successful!", jwt: access_token });
 
