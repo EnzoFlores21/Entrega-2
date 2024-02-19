@@ -10,7 +10,10 @@ import cookieParser from "cookie-parser"
 
 //  Server
 import __dirname from "./dirname.js"
-import { password, db_name, PORT } from "./env.js"
+import envConfig from "./config/env.config.js"
+const port = envConfig.port
+const mongo_url = envConfig.urlMongo
+
 
 // Routes
 import productRouter from "./routes/product.routes.js"
@@ -21,14 +24,14 @@ import usersViewsRouter from "./routes/users.views.routes.js"
 import githubRouter from './routes/github-login.views.routes.js'
 import jwtRouter from "./routes/jwt.routes.js"
 import userRouter from "./routes/users.routes.js"
-import UsersExtendRouter from "./routes/custom/user.extend.router.js"
 
 // Passport Imports
 import passport from 'passport';
-import initializePassport from './config/passport.config.js'
+import initializePassport from './config/auth/passport.config.js'
 
 
 // Express
+console.log("PORT", port);
 const app = express()
 
 app.use(express.json())
@@ -50,13 +53,11 @@ app.set("view engine", "hbs")
 app.set("views", `${__dirname}/views`)
 app.use(express.static(`${__dirname}/public`))
 
-// Nongo DB
-const URL_MONGO = "mongodb+srv://enzoflores21:DevEnzoNicolasFlores2024@clusterprueba.zwqxjbs.mongodb.net/ecommerce?retryWrites=true&w=majority"
 
 app.use(session(
     {
         store: MongoStore.create({
-            mongoUrl: URL_MONGO,
+            mongoUrl: mongo_url,
             mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
             ttl: 10 * 60
         }),
@@ -68,10 +69,11 @@ app.use(session(
 
 app.use(cookieParser("CoderS3cr3tC0d3"));
 
+
 // Middleware de passport
 initializePassport();
 app.use(passport.initialize());
-// app.use(passport.session());
+app.use(passport.session());
 
 
 // Routes
@@ -85,18 +87,14 @@ app.use("/api/jwt", jwtRouter)
 app.use('/api/users', userRouter);
 
 
-const usersExtendRouter = new UsersExtendRouter();
-app.use("/api/extend/users", usersExtendRouter.getRouter());
-
 
 
 // Levantar Servidor
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+app.listen(port, () => console.log(`Server running on port ${port}`))
 
 // Mongoose
-mongoose.connect(
-    `mongodb+srv://enzoflores21:${password}@clusterprueba.zwqxjbs.mongodb.net/${db_name}?retryWrites=true&w=majority`
-)
+mongoose
+    .connect(mongo_url)
     .then(() => {
         console.log("DB Connected")
     })
